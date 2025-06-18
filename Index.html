@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>จองคิวแทนคุณ | แบบฟอร์มจองงาน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background: #f2f7ff;
+      color: #222;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      padding: 25px;
+      margin: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+    h1 {
+      color: #0033cc;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #0033cc;
+      color: white;
+      font-size: 18px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 20px;
+      width: 100%;
+    }
+    .note {
+      font-size: 14px;
+      color: #444;
+      background: #e6f0ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 จองคิวแทนคุณ</h1>
+
+    <form id="bookingForm">
+      <label>ชื่อของคุณ</label>
+      <input type="text" name="name" placeholder="กรอกชื่อของคุณ" required>
+
+      <label>เบอร์โทรติดต่อ</label>
+      <input type="tel" name="phone" placeholder="08xxxxxxxx" required>
+
+      <label>วันและเวลาที่ต้องการ</label>
+      <input type="datetime-local" name="datetime" required>
+
+      <label>ประเภทบริการ</label>
+      <select name="service" required>
+        <option disabled selected>-- เลือกบริการ --</option>
+        <option>🛍️ รับหิ้วสินค้า</option>
+        <option>🍻 จองโต๊ะ / เฝ้าโต๊ะร้านเหล้า</option>
+        <option>🎤 จองที่งานแฟนคลับ</option>
+        <option>📱 ต่อแถว / กดคิว</option>
+        <option>👫 เป็นเพื่อนเที่ยว / คุยรับฟัง</option>
+        <option>อื่น ๆ</option>
+      </select>
+
+      <label>ความเร่งด่วนของงาน</label>
+      <select name="urgency" required>
+        <option value="ด่วน">⚡ งานด่วนภายใน 1 ชั่วโมง</option>
+        <option value="ไม่ด่วน">🕓 งานไม่ด่วน</option>
+      </select>
+
+      <label>เรทราคาที่เสนอ (บาท)</label>
+      <input type="number" name="price" placeholder="เช่น 200" required>
+
+      <label>หมายเหตุเพิ่มเติม (ถ้ามี)</label>
+      <textarea name="note" rows="3" placeholder="บอกรายละเอียดเพิ่มเติมได้ที่นี่..."></textarea>
+
+      <div class="note">
+        ✅ แต้มสะสม: จอง 1 ครั้ง = 10 แต้ม<br>
+        🎁 ครบ 1000 แต้ม ลด 100 บาท | จองครบ 10 ครั้ง ลดอีก 50 บาท<br><br>
+        💳 ชำระเมื่อมีผู้รับงาน | คืนเงิน 100% หากไม่มีผู้รับงาน<br>
+        🔒 ระบบหักค่าธรรมเนียมอัตโนมัติ 25% เพื่อความปลอดภัยของทุกฝ่าย
+      </div>
+
+      <button type="submit">📩 ส่งคำจอง</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch("https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_ID/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(response => {
+        alert("✅ ส่งคำจองเรียบร้อย! ระบบกำลังหาผู้รับงานให้คุณ");
+        // ถ้าอยู่ใน LIFF: liff.closeWindow();
+      })
+      .catch(err => {
+        alert("❌ เกิดข้อผิดพลาดในการส่งข้อมูล");
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>สถานะงานของคุณ | ThanQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: 'Prompt', sans-serif; background: #eef3fb; color: #222; padding: 20px; }
+    .container { max-width: 600px; background: white; padding: 25px; margin: auto; border-radius: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.05); }
+    h2 { color: #0033cc; text-align: center; margin-bottom: 15px; }
+    .status-box, .point-box { padding: 15px; background: #f5faff; border-radius: 12px; margin-bottom: 15px; }
+    .status-value { font-size: 20px; font-weight: bold; color: #0066cc; }
+    .point-value { font-size: 22px; font-weight: bold; color: #28a745; }
+    .label { color: #666; font-size: 14px; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📋 สถานะงานของคุณ</h2>
+
+    <div class="status-box">
+      <div class="label">สถานะงานล่าสุด:</div>
+      <div class="status-value" id="jobStatus">⏳ รอผู้รับงาน</div>
+    </div>
+
+    <div class="status-box">
+      <div class="label">สถานะการชำระเงิน:</div>
+      <div class="status-value" id="paymentStatus">💳 ยังไม่ชำระเงิน</div>
+    </div>
+
+    <div class="point-box">
+      <div class="label">แต้มสะสมของคุณ:</div>
+      <div class="point-value" id="points">80 แต้ม</div>
+      <div class="label">🎁 จองครบ 1000 แต้ม ลดทันที 100 บาท</div>
+      <div class="label">🎉 จองครบ 10 ครั้ง รับคูปองลด 50 บาท</div>
+    </div>
+
+    <div class="status-box">
+      <div class="label">ประวัติการจอง 3 รายการล่าสุด:</div>
+      <ul id="bookingHistory">
+        <li>📍 12 มิ.ย. 67 — รับหิ้วสินค้า — เสร็จสิ้น</li>
+        <li>📍 15 มิ.ย. 67 — จองที่แฟนคลับ — กำลังทำ</li>
+        <li>📍 18 มิ.ย. 67 — ต่อแถวกดคิว — รอรับงาน</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // หากเชื่อมกับ Google Sheet หรือ Backend สามารถ fetch มาดึงสถานะจริงได้
+    // ตัวอย่างการเชื่อม (สมมุติ):
+    /*
+    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?phone=0812345678")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("jobStatus").innerText = data.status;
+        document.getElementById("points").innerText = data.points + " แต้ม";
+        document.getElementById("paymentStatus").innerText = data.payment;
+        // ลูปแสดงรายการ
+      });
+    */
+  </script>
+</body>
+        </html>
